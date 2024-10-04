@@ -61,9 +61,9 @@ CONCURRENT_REQUESTS = 1
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "reddit_spider.pipelines.RedditSpiderPipeline": 300,
-#}
+ITEM_PIPELINES = {
+    'reddit_spider.pipelines.RedditSpiderPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -91,21 +91,16 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
-# Enable Playwright as the downloader handler
-# settings.py
-
 DOWNLOAD_HANDLERS = {
     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
 }
 
-# Playwright configuration to use headless mode
 PLAYWRIGHT_BROWSER_TYPE = "chromium"
 PLAYWRIGHT_LAUNCH_OPTIONS = {
     "headless": True
 }
 
-# Enable downloader middlewares for Playwright and custom middleware
 DOWNLOADER_MIDDLEWARES = {
  "reddit_spider.middlewares.StealthPlaywrightMiddleware": 100,  # Your custom middleware
 }
