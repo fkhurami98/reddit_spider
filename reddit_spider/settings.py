@@ -9,6 +9,8 @@
 
 BOT_NAME = "reddit_spider"
 
+LOG_LEVEL = "INFO"
+
 SPIDER_MODULES = ["reddit_spider.spiders"]
 NEWSPIDER_MODULE = "reddit_spider.spiders"
 
