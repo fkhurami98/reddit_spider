@@ -2,9 +2,29 @@ import scrapy
 from reddit_spider.items import RedditPostItem
 from scrapy_playwright.page import PageMethod
 
+
 class RedditSpider(scrapy.Spider):
     name = "reddit_spider"
-    start_urls = ["https://www.reddit.com/r/Python/new/"]
+    start_urls = [
+        "https://www.reddit.com/r/Jokes/",
+        "https://www.reddit.com/r/explainlikeimfive/",
+        "https://www.reddit.com/r/LifeProTips/",
+        "https://www.reddit.com/r/TrueOffMyChest/",
+        "https://www.reddit.com/r/talesfromtechsupport/",
+        "https://www.reddit.com/r/AskUK/",
+        "https://www.reddit.com/r/tifu/",
+        "https://www.reddit.com/r/AmItheAsshole/",
+        "https://www.reddit.com/r/legaladvice/",
+        "https://www.reddit.com/r/whowouldwin/",
+        "https://www.reddit.com/r/AskReddit/",
+        "https://www.reddit.com/r/HFY/",
+        "https://www.reddit.com/r/AskHistorians/",
+        "https://www.reddit.com/r/talesfromretail/",
+        "https://www.reddit.com/r/talesfromtechsupport/",
+        "https://www.reddit.com/r/wouldyourather/",
+        "https://www.reddit.com/r/stories/",
+        "https://www.reddit.com/r/answers/",
+    ]
 
     def start_requests(self):
         for url in self.start_urls:
@@ -14,19 +34,17 @@ class RedditSpider(scrapy.Spider):
                 meta={
                     "playwright": True,
                     "playwright_page_methods": [
-                        PageMethod("click", 'button:has-text("Accept all")'),
-                        PageMethod("evaluate", "window.scrollBy(0, document.body.scrollHeight)"),
+                        PageMethod(
+                            "evaluate", "window.scrollBy(0, window.innerHeight * 60);"
+                        ),
                         PageMethod("wait_for_load_state", "networkidle"),
-                        PageMethod("wait_for_timeout", 5000),
                     ],
-                }
+                    "start_url": url,
+                },
             )
-    
+
     async def parse(self, response):
         posts = response.css("shreddit-post")
-        if not posts:
-            self.logger.info("No posts found.")
-            return
 
         for post in posts:
             postItem = RedditPostItem()
@@ -35,4 +53,5 @@ class RedditSpider(scrapy.Spider):
             postItem["comments"] = post.attrib.get("comment-count")
             postItem["permalink"] = post.attrib.get("permalink")
             postItem["created_timestamp"] = post.attrib.get("created-timestamp")
+            postItem["start_url"] = response.meta["start_url"]
             yield postItem

@@ -7,6 +7,7 @@ import scrapy
 
 
 class RedditPostItem(scrapy.Item):
+    start_url = scrapy.Field()
     title = scrapy.Field()
     author = scrapy.Field()
     comments = scrapy.Field()
