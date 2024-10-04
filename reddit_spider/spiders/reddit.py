@@ -14,8 +14,10 @@ class RedditSpider(scrapy.Spider):
                 meta={
                     "playwright": True,
                     "playwright_page_methods": [
+                        PageMethod("click", 'button:has-text("Accept all")'),
                         PageMethod("evaluate", "window.scrollBy(0, document.body.scrollHeight)"),
-                        PageMethod("wait_for_load_state", "networkidle")
+                        PageMethod("wait_for_load_state", "networkidle"),
+                        PageMethod("wait_for_timeout", 5000),
                     ],
                 }
             )
