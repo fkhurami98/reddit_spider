@@ -6,7 +6,9 @@
 import scrapy
 
 
-class RedditSpiderItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class RedditPostItem(scrapy.Item):
+    title = scrapy.Field()
+    author = scrapy.Field()
+    comments = scrapy.Field()
+    permalink = scrapy.Field()
+    created_timestamp = scrapy.Field()
