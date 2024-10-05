@@ -11,12 +11,13 @@ from itemadapter import is_item, ItemAdapter
 from scrapy_playwright.page import PageMethod
 from playwright_stealth import stealth_async
 
+
 class StealthPlaywrightMiddleware:
     async def process_page(self, page, request):
         await stealth_async(page)
-        
-        return PageMethod("evaluate", "window.scrollBy(0, window.innerHeight * 60);")
-    
+        return None
+
+
 class RedditSpiderSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the

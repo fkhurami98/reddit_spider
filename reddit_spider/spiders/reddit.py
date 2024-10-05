@@ -101,7 +101,7 @@ class RedditSpider(scrapy.Spider):
             postItem["start_url"] = response.meta["start_url"]
 
             logging.info(
-                f"Scraped post: {postItem['title']} by {postItem['author']} from {postItem['start_url']}"
+                f"Scraped post: {postItem['title'][:40]} by {postItem['author']} from {postItem['start_url']}"
             )
 
             yield postItem
