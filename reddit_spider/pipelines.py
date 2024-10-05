@@ -6,6 +6,8 @@ from urllib.parse import urlparse
 
 class RedditSpiderPipeline:
     def open_spider(self, spider):
+        self.output_dir = "json_files"
+        os.makedirs(self.output_dir, exist_ok=True)
         self.files = {}
 
     def close_spider(self, spider):
@@ -49,4 +51,4 @@ class RedditSpiderPipeline:
     def generate_filename(self, url: str) -> str:
         parsed_url = urlparse(url)
         filename = f"{parsed_url.netloc}{parsed_url.path}".replace("/", "_") + ".json"
-        return filename
+        return os.path.join(self.output_dir, filename)
