@@ -1,3 +1,5 @@
+# credit to datawookie for this script
+
 NAMES = [
     "peter",
     "lois",
