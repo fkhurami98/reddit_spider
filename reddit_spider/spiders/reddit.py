@@ -1,29 +1,30 @@
 import scrapy
 from reddit_spider.items import RedditPostItem
 from scrapy_playwright.page import PageMethod
+import logging
 
 
 class RedditSpider(scrapy.Spider):
     name = "reddit_spider"
     start_urls = [
-        "https://www.reddit.com/r/Jokes/",
-        "https://www.reddit.com/r/explainlikeimfive/",
-        "https://www.reddit.com/r/LifeProTips/",
-        "https://www.reddit.com/r/TrueOffMyChest/",
-        "https://www.reddit.com/r/talesfromtechsupport/",
-        "https://www.reddit.com/r/AskUK/",
-        "https://www.reddit.com/r/tifu/",
-        "https://www.reddit.com/r/AmItheAsshole/",
-        "https://www.reddit.com/r/legaladvice/",
-        "https://www.reddit.com/r/whowouldwin/",
-        "https://www.reddit.com/r/AskReddit/",
-        "https://www.reddit.com/r/HFY/",
-        "https://www.reddit.com/r/AskHistorians/",
-        "https://www.reddit.com/r/talesfromretail/",
-        "https://www.reddit.com/r/talesfromtechsupport/",
-        "https://www.reddit.com/r/wouldyourather/",
-        "https://www.reddit.com/r/stories/",
-        "https://www.reddit.com/r/answers/",
+        "https://www.reddit.com/r/Jokes/new/",
+        "https://www.reddit.com/r/explainlikeimfive/new/",
+        "https://www.reddit.com/r/LifeProTips/new/",
+        "https://www.reddit.com/r/TrueOffMyChest/new/",
+        "https://www.reddit.com/r/talesfromtechsupport/new/",
+        "https://www.reddit.com/r/AskUK/new/",
+        "https://www.reddit.com/r/tifu/new/",
+        "https://www.reddit.com/r/AmItheAsshole/new/",
+        "https://www.reddit.com/r/legaladvice/new/",
+        "https://www.reddit.com/r/whowouldwin/new/",
+        "https://www.reddit.com/r/AskReddit/new/",
+        "https://www.reddit.com/r/HFY/new/",
+        "https://www.reddit.com/r/AskHistorians/new/",
+        "https://www.reddit.com/r/talesfromretail/new/",
+        "https://www.reddit.com/r/talesfromtechsupport/new/",
+        "https://www.reddit.com/r/wouldyourather/new/",
+        "https://www.reddit.com/r/stories/new/",
+        "https://www.reddit.com/r/answers/new/",
     ]
 
     def start_requests(self):
@@ -38,6 +39,14 @@ class RedditSpider(scrapy.Spider):
                             "evaluate", "window.scrollBy(0, window.innerHeight * 60);"
                         ),
                         PageMethod("wait_for_load_state", "networkidle"),
+                        PageMethod(
+                            "add_init_script",
+                            """
+                            Object.defineProperty(navigator, 'webdriver', {
+                              get: () => undefined
+                            });
+                        """,
+                        ),
                     ],
                     "start_url": url,
                 },
@@ -54,4 +63,9 @@ class RedditSpider(scrapy.Spider):
             postItem["permalink"] = post.attrib.get("permalink")
             postItem["created_timestamp"] = post.attrib.get("created-timestamp")
             postItem["start_url"] = response.meta["start_url"]
+
+            logging.info(
+                f"Scraped post: {postItem['title']} by {postItem['author']} from {postItem['start_url']}"
+            )
+
             yield postItem
