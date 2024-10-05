@@ -39,12 +39,15 @@ requests==2.32.3
 requests-file==2.1.0
 Scrapy==2.11.2
 scrapy-playwright==0.0.41
+scrapy-rotating-proxies==0.6.2
 scrapy-user-agents==0.1.1
 service-identity==24.1.0
 setuptools==75.1.0
+six==1.16.0
 soupsieve==2.6
 tldextract==5.1.2
 Twisted==24.7.0
+typing==3.7.4.3
 typing_extensions==4.12.2
 ua-parser==0.18.0
 urllib3==2.2.3
