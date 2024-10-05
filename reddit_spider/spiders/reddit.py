@@ -89,6 +89,7 @@ class RedditSpider(scrapy.Spider):
             )
 
     async def parse(self, response):
+        logging.info(f"User-Agent: {response.request.headers.get('User-Agent').decode('utf-8')}")
         posts = response.css("shreddit-post")
 
         for post in posts:

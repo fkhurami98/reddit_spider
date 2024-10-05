@@ -103,5 +103,7 @@ PLAYWRIGHT_BROWSER_TYPE = "chromium"
 PLAYWRIGHT_LAUNCH_OPTIONS = {"headless": True}
 
 DOWNLOADER_MIDDLEWARES = {
-    "reddit_spider.middlewares.StealthPlaywrightMiddleware": 100,  # Your custom middleware
+    "reddit_spider.middlewares.StealthPlaywrightMiddleware": 100, 
+    'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 400,
 }
+
