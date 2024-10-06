@@ -18,7 +18,7 @@ class RedditPostMetadata(Spider):
         - created timestamp
         - start_url (the subreddit URL)
     """
-    name = "reddit_metadata"
+    name = "reddit_post_metadata"
     start_urls = START_URLS
 
     def start_requests(self):
