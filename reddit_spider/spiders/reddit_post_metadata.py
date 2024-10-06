@@ -1,17 +1,32 @@
-import scrapy
+from scrapy import Spider, Request
 from reddit_spider.items import RedditPostItem
 from reddit_spider.settings import START_URLS
 from scrapy_playwright.page import PageMethod
 import logging
 
 
-class RedditSpider(scrapy.Spider):
-    name = "reddit_spider"
+class RedditPostMetadata(Spider):
+    """
+    A Scrapy spider that scrapes metadata from posts in multiple subreddits.
+
+    This spider takes a list of subreddit URLs (START_URLS) and scrapes the following
+    metadata from each post:
+        - title
+        - author
+        - comment count
+        - permalink
+        - created timestamp
+        - start_url (the subreddit URL)
+    """
+    name = "reddit_metadata"
     start_urls = START_URLS
 
     def start_requests(self):
+        """
+        Sends requests for each subreddit URL from the `start_urls` list using Playwright.
+        """
         for url in self.start_urls:
-            yield scrapy.Request(
+            yield Request(
                 url=url,
                 callback=self.parse,
                 meta={
@@ -35,7 +50,11 @@ class RedditSpider(scrapy.Spider):
             )
 
     async def parse(self, response):
-        yield scrapy.Request(
+        """
+        Makes an additional request to check the exit node IP address and then
+        continues to process the subreddit posts metadata from the original response.
+        """
+        yield Request(
             url="https://httpbin.org/ip",
             callback=self.log_exit_ip_and_continue,
             meta={"original_response": response},
@@ -43,6 +62,13 @@ class RedditSpider(scrapy.Spider):
         )
 
     def log_exit_ip_and_continue(self, response):
+        """
+        Logs the exit IP, user-agent, and proxy (if used), and extracts the metadata 
+        of posts from the original subreddit response.
+
+        The metadata extracted includes title, author, comment count, permalink, 
+        and created timestamp for each post.
+        """
         actual_exit_ip = response.json().get("origin")
         original_response = response.meta["original_response"]
         start_url = original_response.meta["start_url"]
@@ -58,6 +84,7 @@ class RedditSpider(scrapy.Spider):
         if proxy:
             logging.info(f"Proxy IP (Docker): {proxy}")
         posts = original_response.css("shreddit-post")
+
         for post in posts:
             postItem = RedditPostItem()
             postItem["title"] = post.attrib.get("post-title")
@@ -68,5 +95,5 @@ class RedditSpider(scrapy.Spider):
             postItem["start_url"] = start_url
             yield postItem
 
-        logging.info(f"Scraped all posts from subreddit: {start_url} ")
+        logging.info(f"Scraped all posts from subreddit: {start_url}")
         print("=" * 138 + "\n")
