@@ -9,7 +9,7 @@ services:
     ports:
       - '9990:8888'
     environment:
-      - IP_CHANGE_SECONDS=60
+      - IP_CHANGE_SECONDS=10
     restart: always
   tor-lois:
     container_name: 'tor-lois'
@@ -17,7 +17,7 @@ services:
     ports:
       - '9991:8888'
     environment:
-      - IP_CHANGE_SECONDS=60
+      - IP_CHANGE_SECONDS=10
     restart: always
   tor-brian:
     container_name: 'tor-brian'
@@ -25,7 +25,7 @@ services:
     ports:
       - '9992:8888'
     environment:
-      - IP_CHANGE_SECONDS=60
+      - IP_CHANGE_SECONDS=10
     restart: always
   tor-stewie:
     container_name: 'tor-stewie'
@@ -33,7 +33,7 @@ services:
     ports:
       - '9993:8888'
     environment:
-      - IP_CHANGE_SECONDS=60
+      - IP_CHANGE_SECONDS=10
     restart: always
   tor-meg:
     container_name: 'tor-meg'
@@ -41,5 +41,5 @@ services:
     ports:
       - '9994:8888'
     environment:
-      - IP_CHANGE_SECONDS=60
+      - IP_CHANGE_SECONDS=10
     restart: always
