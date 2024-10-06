@@ -36,8 +36,12 @@ class RedditSpider(scrapy.Spider):
 
     async def parse(self, response):
         user_agent = response.request.headers.get("User-Agent").decode("utf-8")
-
         logging.info(f"User-Agent: {user_agent}")
+
+        proxy = response.meta.get("proxy")
+        if proxy:
+            logging.info(f"Exit IP (Proxy): {proxy}")
+
 
         posts = response.css("shreddit-post")
 
