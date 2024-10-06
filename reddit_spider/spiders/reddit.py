@@ -1,68 +1,14 @@
 import scrapy
 from reddit_spider.items import RedditPostItem
+from reddit_spider.settings import START_URLS
 from scrapy_playwright.page import PageMethod
 import logging
 
 
 class RedditSpider(scrapy.Spider):
     name = "reddit_spider"
-    start_urls = [
-        "https://www.reddit.com/r/Jokes/new/",
-        "https://www.reddit.com/r/explainlikeimfive/new/",
-        "https://www.reddit.com/r/LifeProTips/new/",
-        "https://www.reddit.com/r/TrueOffMyChest/new/",
-        "https://www.reddit.com/r/talesfromtechsupport/new/",
-        "https://www.reddit.com/r/AskUK/new/",
-        "https://www.reddit.com/r/tifu/new/",
-        "https://www.reddit.com/r/AmItheAsshole/new/",
-        "https://www.reddit.com/r/legaladvice/new/",
-        "https://www.reddit.com/r/whowouldwin/new/",
-        "https://www.reddit.com/r/AskReddit/new/",
-        "https://www.reddit.com/r/HFY/new/",
-        "https://www.reddit.com/r/AskHistorians/new/",
-        "https://www.reddit.com/r/talesfromretail/new/",
-        "https://www.reddit.com/r/wouldyourather/new/",
-        "https://www.reddit.com/r/stories/new/",
-        "https://www.reddit.com/r/answers/new/",
-        "https://www.reddit.com/r/technology/new/",
-        "https://www.reddit.com/r/science/new/",
-        "https://www.reddit.com/r/worldnews/new/",
-        "https://www.reddit.com/r/interestingasfuck/new/",
-        "https://www.reddit.com/r/Futurology/new/",
-        "https://www.reddit.com/r/nottheonion/new/",
-        "https://www.reddit.com/r/mildlyinteresting/new/",
-        "https://www.reddit.com/r/todayilearned/new/",
-        "https://www.reddit.com/r/space/new/",
-        "https://www.reddit.com/r/IAmA/new/",
-        "https://www.reddit.com/r/news/new/",
-        "https://www.reddit.com/r/personalfinance/new/",
-        "https://www.reddit.com/r/investing/new/",
-        "https://www.reddit.com/r/DIY/new/",
-        "https://www.reddit.com/r/movies/new/",
-        "https://www.reddit.com/r/Documentaries/new/",
-        "https://www.reddit.com/r/gaming/new/",
-        "https://www.reddit.com/r/PCMasterRace/new/",
-        "https://www.reddit.com/r/funny/new/",
-        "https://www.reddit.com/r/oddlysatisfying/new/",
-        "https://www.reddit.com/r/books/new/",
-        "https://www.reddit.com/r/food/new/",
-        "https://www.reddit.com/r/cars/new/",
-        "https://www.reddit.com/r/Fitness/new/",
-        "https://www.reddit.com/r/relationship_advice/new/",
-        "https://www.reddit.com/r/NoStupidQuestions/new/",
-        "https://www.reddit.com/r/wholesomememes/new/",
-        "https://www.reddit.com/r/nosleep/new/",
-        "https://www.reddit.com/r/MadeMeSmile/new/",
-        "https://www.reddit.com/r/AskMen/new/",
-        "https://www.reddit.com/r/AskWomen/new/",
-        "https://www.reddit.com/r/CasualConversation/new/",
-        "https://www.reddit.com/r/Frugal/new/",
-        "https://www.reddit.com/r/DecidingToBeBetter/new/",
-        "https://www.reddit.com/r/TwoXChromosomes/new/",
-        "https://www.reddit.com/r/Music/new/",
-        "https://www.reddit.com/r/Art/new/",
-    ]
-
+    start_urls = START_URLS
+    
     def start_requests(self):
         for url in self.start_urls:
             yield scrapy.Request(
@@ -89,7 +35,10 @@ class RedditSpider(scrapy.Spider):
             )
 
     async def parse(self, response):
-        logging.info(f"User-Agent: {response.request.headers.get('User-Agent').decode('utf-8')}")
+        user_agent = response.request.headers.get("User-Agent").decode("utf-8")
+
+        logging.info(f"User-Agent: {user_agent}")
+
         posts = response.css("shreddit-post")
 
         for post in posts:
