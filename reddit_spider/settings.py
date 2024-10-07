@@ -9,7 +9,7 @@
 
 BOT_NAME = "reddit_spider"
 
-LOG_LEVEL = "INFO"
+LOG_LEVEL = "DEBUG"
 LOG_FORMAT = "%(levelname)s: %(message)s"
 
 SPIDER_MODULES = ["reddit_spider.spiders"]
@@ -23,7 +23,7 @@ USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 1
+CONCURRENT_REQUESTS = 4
 TORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
 ITEM_PIPELINES = {
