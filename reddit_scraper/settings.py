@@ -1,4 +1,4 @@
-# Scrapy settings for reddit_spider project
+# Scrapy settings for reddit_scraper project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,13 +7,13 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "reddit_spider"
+BOT_NAME = "reddit_scraper"
 
 LOG_LEVEL = "DEBUG"
 LOG_FORMAT = "%(levelname)s: %(message)s"
 
-SPIDER_MODULES = ["reddit_spider.spiders"]
-NEWSPIDER_MODULE = "reddit_spider.spiders"
+SPIDER_MODULES = ["reddit_scraper.spiders"]
+NEWSPIDER_MODULE = "reddit_scraper.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -27,7 +27,7 @@ CONCURRENT_REQUESTS = 4
 TORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
 ITEM_PIPELINES = {
-    "reddit_spider.pipelines.RedditSpiderPipeline": 300,
+    "reddit_scraper.pipelines.RedditSpiderPipeline": 300,
 }
 
 # Set settings whose default value is deprecated to a future-proof value
@@ -44,7 +44,7 @@ PLAYWRIGHT_BROWSER_TYPE = "chromium"
 PLAYWRIGHT_LAUNCH_OPTIONS = {"headless": True}
 
 DOWNLOADER_MIDDLEWARES = {
-    "reddit_spider.middlewares.StealthPlaywrightMiddleware": 100,
+    "reddit_scraper.middlewares.StealthPlaywrightMiddleware": 100,
     "scrapy_user_agents.middlewares.RandomUserAgentMiddleware": 400,
     "rotating_proxies.middlewares.RotatingProxyMiddleware": 610,
     "rotating_proxies.middlewares.BanDetectionMiddleware": 620,
@@ -190,13 +190,13 @@ START_URLS = [
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 # SPIDER_MIDDLEWARES = {
-#    "reddit_spider.middlewares.RedditSpiderSpiderMiddleware": 543,
+#    "reddit_scraper.middlewares.RedditSpiderSpiderMiddleware": 543,
 # }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 # DOWNLOADER_MIDDLEWARES = {
-#    "reddit_spider.middlewares.RedditSpiderDownloaderMiddleware": 543,
+#    "reddit_scraper.middlewares.RedditSpiderDownloaderMiddleware": 543,
 # }
 
 # Enable or disable extensions
